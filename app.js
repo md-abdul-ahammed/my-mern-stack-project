@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
 const dotenv = require("dotenv");
+const path = require("path");
 
 const errorMiddleware = require("./middleware/error");
 
@@ -26,15 +27,11 @@ app.use("/api/v1", user);
 app.use("/api/v1", order);
 app.use("/api/v1", payment);
 
-if (process.env.NODE_ENV == "production") {
-  const path = require("path");
+app.get("/", (req, res) => {
+  app.use(express.static(path.resolve(__dirname, "frontend", "build")));
 
-  app.get("/", (req, res) => {
-    app.use(express.static(path.resolve(__dirname, "frontend", "build")));
-
-    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
-  });
-}
+  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+});
 
 // Middleware for Errors
 app.use(errorMiddleware);
