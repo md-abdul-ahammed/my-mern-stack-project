@@ -3,13 +3,12 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
+const dotenv = require("dotenv");
 
 const errorMiddleware = require("./middleware/error");
 
 // Config
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({ path: "./config/config.env" });
-}
+dotenv.config({ path: "./config/config.env" });
 
 app.use(express.json());
 app.use(cookieParser());
@@ -27,7 +26,7 @@ app.use("/api/v1", user);
 app.use("/api/v1", order);
 app.use("/api/v1", payment);
 
-if (process.env.NODE_ENV == "PRODUCTION") {
+if (process.env.NODE_ENV == "production") {
   const path = require("path");
 
   app.get("/", (req, res) => {
