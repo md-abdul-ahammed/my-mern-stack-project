@@ -30,9 +30,9 @@ app.use("/api/v1", payment);
 if (process.env.NODE_ENV == "PRODUCTION") {
   const path = require("path");
 
-  app.get("/", (req, res) => {
+  app.get("*", (req, res) => {
     app.use(express.static(path.resolve(__dirname, "frontend", "build")));
-
+    app.use(express.static(__dirname + "/public"));
     res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
   });
 }
